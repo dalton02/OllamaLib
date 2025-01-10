@@ -1,0 +1,44 @@
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = "file:./dev.sqlite"
+}
+
+
+model Chat {
+  id           Int        @id @default(autoincrement())
+  uuid         String     @unique
+  criadoEm     DateTime   @default(now()) @map("criado_em")
+  atualizadoEm DateTime   @updatedAt @map("atualizado_em")
+  nome         String
+  mensagens    Mensagem[]
+  @@map("chat")
+}
+
+model Mensagem {
+  id          Int      @id @default(autoincrement())
+  conteudo    String
+  modelo       String
+  bot          Boolean
+
+  //Do bot
+  eval_count BigInt?
+  eval_duration BigInt?
+  load_duration BigInt?
+
+  prompt_eval_count BigInt?
+  prompt_eval_duration BigInt?
+  total_duration BigInt?
+
+
+  criadoEm     DateTime   @default(now()) @map("criado_em")
+  atualizadoEm DateTime   @updatedAt @map("atualizado_em")
+ 
+  idChat      Int     
+  chat        Chat    @relation(fields: [idChat], references: [id]) 
+  @@map("mensagem") 
+}
