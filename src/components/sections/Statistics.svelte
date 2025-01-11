@@ -1,6 +1,3 @@
-
-
-
 <script lang="ts">
 	import { page } from "$app/state";
 	import type { Chat } from "$lib";
@@ -49,25 +46,21 @@
 
 <PopUp bind:isVisible>
 
-    <div class="flex flex-col items-center justify-center w-[900px]  bg-slate-50 rounded-2xl p-7">
+    <div class="flex flex-col items-center justify-center bg-white rounded-2xl w-[450px] relative p-8 ">
       
-        <div class="flex justify-between w-full">
-            <h2 class="text-[28px] text-left">Statistics</h2>
-            <button onclick={()=>isVisible=false} aria-label="close">
-                <svg xmlns="http://www.w3.org/2000/svg" width="22" fill="#000000" viewBox="0 0 256 256"><path d="M205.66,194.34a8,8,0,0,1-11.32,11.32L128,139.31,61.66,205.66a8,8,0,0,1-11.32-11.32L116.69,128,50.34,61.66A8,8,0,0,1,61.66,50.34L128,116.69l66.34-66.35a8,8,0,0,1,11.32,11.32L139.31,128Z"></path></svg>
-            </button>
+        <div class="flex justify-center w-full">
+            <h2 class="text-[42px] text-left">Statistics</h2>
         </div>
 
+        {#if mediaTempoGeral.length>0}
         <div class="grid gap-4 grid-cols-2 grid-rows-7 w-full p-4 relative h-full">
 
             <div class="flex gap-4 col-span-2  row-span-2 p-2 px-4 border shadow-md rounded-lg">
                 <div class="flex flex-col">
                     <h3 class="text-[20px]">Avarage response time:</h3>
                     <NumberCount extraString="s" number={mediaTempoGeral.reduce((acc, curr) => acc + curr.myY, 0)/mediaTempoGeral.length} className="text-[48px]"/>
-                </div>
-                {#if mediaTempoGeral.length>0}
+                    </div>
                    <AreaGraph data={mediaTempoGeral}/>
-                {/if}
             </div>
             
             <!-- <div class="flex gap-4 col-span-2  row-span-2 p-2 px-4 border shadow-md rounded-lg">
@@ -80,6 +73,9 @@
                 {/if}
             </div> -->
         </div>
+        {:else}
+        <h3>Not able to process anything for now</h3>
+        {/if}
 
     </div>
 

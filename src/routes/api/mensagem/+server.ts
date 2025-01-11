@@ -6,23 +6,8 @@ export const POST =  async ({request}) => {
     if(!request.body)
         return new Response(null,{status:404});
 
-    const form = await request.formData()
-   
-    const body = {
-        modelo: form.get("modelo")?.toString() ?? "",
-        chatContext: JSON.parse(form.get("chatContext")?.toString() ?? ""),
-        mensagem: form.get("mensagem")?.toString() ?? "",
-        idChat: parseInt(form.get("idChat")?.toString() ?? "1"),
-    }
-
-    const files = form.getAll("files[]").filter((entry): entry is File => entry instanceof File);
-    const data64 = form.getAll("data64[]").map((entry) => {
-        if (typeof entry === "string") {
-            return entry.toString();
-        }
-        return null; 
-    }).filter((entry): entry is string => entry !== null);
-
+    const body = await request.json()
+   console.log(body)
     try{
         const iaPromisse = ollama.chat({
             model:body.modelo,
@@ -73,12 +58,13 @@ export const POST =  async ({request}) => {
             }
         })
 
-        files.forEach((file,i)=>{
-                    salvarArquivo(file.name,data64[i],mensagemUsuario.id)
+        body.files.forEach((file:any)=>{
+                    salvarArquivo(file.name,file.mime,mensagemUsuario.id)
         })
         return new Response(JSON.stringify(iaResponse),{status:200})
     }
     catch(err){
+        console.log(err)
         return new Response(JSON.stringify(err),{status:404})
     }
 }

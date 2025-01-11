@@ -17,6 +17,7 @@
     let chatNome = $state<string>("")
     let pesquisaChats = $state<string>("")
 
+
     function novoChat(){
         if(chatNome.length===0){
             return;
@@ -41,8 +42,8 @@
 
 <Failed/>
 <Statistics/>
-<PopUp bind:isVisible={novaConversa}>
-    <div class="flex flex-col items-center justify-center bg-white rounded-2xl w-[450px] relative p-8 ">
+    <PopUp bind:isVisible={novaConversa}>
+        <div class="flex flex-col items-center justify-center bg-white rounded-2xl w-[450px] relative p-8 ">
 
         <div class="flex justify-center mb-3 relative">
             <h2 class="text-[42px] leading-10 text-center">Let's create a new conversation</h2>

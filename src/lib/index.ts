@@ -30,3 +30,8 @@ export interface Chat {
 
   }
   
+  export type FileData = {
+    content:string,
+    name:string,
+    mime:string,
+}

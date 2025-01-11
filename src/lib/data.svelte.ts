@@ -1,5 +1,5 @@
 import { goto } from "$app/navigation";
-import type { Chat } from "$lib"
+import type { Chat, FileData } from "$lib"
 import axios, { AxiosError } from "axios";
 import signal from "./signal.svelte";
 
@@ -35,7 +35,12 @@ class Data {
         goto("/chat/"+response.data.id)
     }
 
-    async enviar(input:string,idChat:number,modelo:string,files:any[]){    
+    organizarMensagensDocumentos(input:string,files:FileData[]):string{
+        //Chore: botar de um jeito maneiro os conteudos de cada arquivo em um markdown be, massa
+        return input
+    }
+
+    async enviar(input:string,idChat:number,modelo:string,filesD:FileData[]){    
         try{
             this.chats = this.chats.map((obj,i)=>{
                 if(obj.id===idChat){
@@ -47,26 +52,21 @@ class Data {
                         idChat:idChat,
                         modelo:modelo,
                         bot:false,
-                        arquivos: files ? files.map((obj)=>{return{nome:obj.name,url:obj.data64}}) : []
+                        arquivos: filesD ? filesD.map((obj)=>{return{nome:obj.name,url:""}}) : []
                     })
                     obj.thinking=true;
                 }
                 return obj
             })
-            
-            const formData = new FormData();
-            formData.append("idChat",idChat.toString())
-            formData.append("mensagem",input)
-            formData.append("modelo",modelo)
-            formData.append("chatContext",JSON.stringify(this.chats.find((obj)=>obj.id===idChat)))
 
-            for (let i = 0; i < files.length; i++) {
-                formData.append('files[]', files[i]); 
-                formData.append('data64[]', files[i]); 
-
+            const body = {
+                mensagem: this.organizarMensagensDocumentos(input,filesD),
+                idChat: idChat,
+                modelo: modelo,
+                chatContext: this.chats.find((obj)=>obj.id===idChat),
+                files:[]
             }
-            
-            const response = await axios.postForm("/api/mensagem",formData)
+            const response = await axios.post("/api/mensagem", body)
 
             this.chats = this.chats.map((obj:Chat,i)=>{
                 if(obj.id===idChat){
@@ -88,11 +88,9 @@ class Data {
                 }
                 return obj
             })
-            console.log(this.chats)
         }catch(err){
             signal.send("openFailed",{mensagem:modelo,tipo:"model"})
         }
-
         this.chats = this.chats.map((obj,i)=>{
             if(obj.id===idChat){
                 obj.thinking=false
