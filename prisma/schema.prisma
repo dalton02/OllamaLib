@@ -24,7 +24,7 @@ model Mensagem {
   conteudo    String
   modelo       String
   bot          Boolean
-
+  arquivos    Arquivo[]
   //Do bot
   eval_count BigInt?
   eval_duration BigInt?
@@ -40,5 +40,16 @@ model Mensagem {
  
   idChat      Int     
   chat        Chat    @relation(fields: [idChat], references: [id]) 
+
   @@map("mensagem") 
+}
+
+model Arquivo {
+  id  Int @id @default(autoincrement())
+  nome  String
+  url String
+  idMensagem Int 
+  mensagem Mensagem @relation(fields:[idMensagem],references: [id])
+
+  @@map("arquivo")
 }

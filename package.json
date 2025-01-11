@@ -39,7 +39,9 @@
 		"layercake": "^8.4.2",
 		"marked": "^15.0.6",
 		"ollama": "^0.5.11",
+		"pdfjs-dist": "^4.10.38",
 		"prisma": "^6.1.0",
-		"tailwindcss-motion": "^1.0.1"
+		"tailwindcss-motion": "^1.0.1",
+		"word-extractor": "^1.0.4"
 	}
 }

@@ -11,11 +11,29 @@ export const GET = async({request}) => {
             uuid:true,
             atualizadoEm:true,
             criadoEm:true,
-            mensagens:true,
+            mensagens:{
+                select:{
+                    arquivos:true,
+                    id:true,
+                    conteudo:true,    
+                    modelo:true,       
+                    bot:true,          
+                    eval_count :true,
+                    eval_duration:true,
+                    load_duration:true,
+                    prompt_eval_count:true,
+                    prompt_eval_duration:true,
+                    total_duration:true,
+                    criadoEm:true,
+                    atualizadoEm:true,
+                    idChat:true,   
+                }
+            },
         }
     })
     return new Response(JSON.stringify(chat,(_, v) => typeof v === 'bigint' ? v.toString() : v),{status:200})
     }catch(err){
+        console.log(err)
         return new Response(JSON.stringify({
             message:"Failed to get chats in database, check if you have sqllite installed and type the command `npx prisma db push`"
         }),{status:500})

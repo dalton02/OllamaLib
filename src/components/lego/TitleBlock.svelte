@@ -10,7 +10,7 @@
 
 <div class="relative pointer-events-auto group {className}">
     <span class="text-[14px] {classPosTitle} whitespace-nowrap group-hover:opacity-100 group-hover:scale-100 group-hover:translate-y-0
-     translate-y-[80%] text-zinc-50 opacity-0 scale-50 duration-300 font-medium ease-in-out absolute pointer-events-none z-10 bg-slate-800 p-1 px-2 rounded-lg">
+     translate-y-[80%] delay-75 text-zinc-50 opacity-0 scale-50 duration-300 font-medium ease-in-out absolute pointer-events-none z-10 bg-slate-800 p-1 px-2 rounded-lg">
         {title}
     </span>
     {@render children?.()}

@@ -12,7 +12,7 @@
 	import { page } from "$app/state";
 	import Statistics from "../components/sections/Statistics.svelte";
 
-    let openMenu = $state<boolean>(true)
+    let openMenu = $state<boolean>(false)
     let novaConversa = $state<boolean>(false)
     let chatNome = $state<string>("")
     let pesquisaChats = $state<string>("")

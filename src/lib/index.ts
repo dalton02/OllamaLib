@@ -22,6 +22,11 @@ export interface Chat {
     load_duration?: string;
     prompt_eval_count?: string;
     prompt_eval_duration?: string;
-    total_duration?: string;
+    total_duration?: string;    
+    arquivos?:{
+      nome:string
+      url:string
+    }[];
+
   }
   

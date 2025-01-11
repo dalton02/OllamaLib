@@ -17,6 +17,7 @@ class Data {
                     this.chats.push(chat)
                 }
             }
+            console.log(this.chats)
         }
         catch(err){
             const error = err as any
@@ -34,7 +35,7 @@ class Data {
         goto("/chat/"+response.data.id)
     }
 
-    async enviar(input:string,idChat:number,modelo:string){    
+    async enviar(input:string,idChat:number,modelo:string,files:any[]){    
         try{
             this.chats = this.chats.map((obj,i)=>{
                 if(obj.id===idChat){
@@ -46,18 +47,27 @@ class Data {
                         idChat:idChat,
                         modelo:modelo,
                         bot:false,
+                        arquivos: files ? files.map((obj)=>{return{nome:obj.name,url:obj.data64}}) : []
                     })
                     obj.thinking=true;
                 }
                 return obj
             })
             
-            const response = await axios.post("/api/mensagem",{
-                idChat:idChat,
-                mensagem: input,
-                modelo:modelo,
-                chatContext: this.chats.find((obj)=>obj.id===idChat)
-            })
+            const formData = new FormData();
+            formData.append("idChat",idChat.toString())
+            formData.append("mensagem",input)
+            formData.append("modelo",modelo)
+            formData.append("chatContext",JSON.stringify(this.chats.find((obj)=>obj.id===idChat)))
+
+            for (let i = 0; i < files.length; i++) {
+                formData.append('files[]', files[i]); 
+                formData.append('data64[]', files[i]); 
+
+            }
+            
+            const response = await axios.postForm("/api/mensagem",formData)
+
             this.chats = this.chats.map((obj:Chat,i)=>{
                 if(obj.id===idChat){
                     obj.mensagens.push({
