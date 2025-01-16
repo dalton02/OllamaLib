@@ -25,9 +25,9 @@
     
 
   </script>
-  
-  <path class="path-line" in:slidefade|global  stroke-linejoin="round" stroke-linecap="round" d={path} {stroke}></path>
-  
+  {#key path}
+  <path class="path-line" transition:slidefade|global  stroke-linejoin="round" stroke-linecap="round" d={path} {stroke}></path>
+  {/key}
   <style>
     .path-line {
       fill: none;

@@ -37,7 +37,8 @@ import FocusBlock from "../lego/FocusBlock.svelte";
 
 <FocusBlock bind:viewObject={isVisible} className=" relative pointer-events-auto  flex justify-center items-center" containersWithinFocus={[]}>
 
-    <button class="self-end flex items-center text-[16px] gap-2 px-4 hover:bg-neutral-50 duration-150 whitespace-nowrap rounded-lg p-2 text-gray-900 " onclick={()=>isVisible=!isVisible}>
+    <button class="self-end flex items-center text-[16px] gap-2 px-4 hover:bg-neutral-50 duration-150 whitespace-nowrap rounded-lg p-2 text-gray-900 " 
+    onclick={()=>isVisible=!isVisible}>
         <div class="flex flex-col items-start">
             <span class="text-[24px] leading-5 font-medium">Ollama</span>
             <b class="text-[16px] font-semibold text-gray-700">{modelo}</b> 

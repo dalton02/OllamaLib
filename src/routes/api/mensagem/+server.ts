@@ -7,9 +7,12 @@ export const POST =  async ({request}) => {
         return new Response(null,{status:404});
 
     const body = await request.json()
-   console.log(body)
+ 
+    
+
+
     try{
-        const iaPromisse = ollama.chat({
+        const iaResponse = await ollama.chat({
             model:body.modelo,
             stream:false,
             messages:body.chatContext.mensagens.map((obj:Mensagem)=> {
@@ -19,13 +22,21 @@ export const POST =  async ({request}) => {
                         content:obj.conteudo
                     }
                 }
+                if(obj.arquivos){
+                    return{
+                        role:"user",
+                        content:obj.conteudo+obj.arquivos.map((obj)=>{
+                            return obj.content
+                        })
+                    }
+                }
                 return{
                     role: "user",
                     content:obj.conteudo
                 }
             }),
         })
-        const mensagemPromisse = prisma.mensagem.create({
+        const mensagemUsuario = await prisma.mensagem.create({
             data:{
                 conteudo:body.mensagem,
                 bot:false,
@@ -37,9 +48,6 @@ export const POST =  async ({request}) => {
             }
         })
 
-        const [iaResponse,mensagemUsuario] = await Promise.all([iaPromisse,mensagemPromisse]).then((values:any)=>{
-            return values
-        })
         const salvandoIa = await prisma.mensagem.create({
             data:{
                 modelo: body.modelo,
@@ -61,21 +69,20 @@ export const POST =  async ({request}) => {
         body.files.forEach((file:any)=>{
                     salvarArquivo(file.name,file.mime,mensagemUsuario.id)
         })
-        return new Response(JSON.stringify(iaResponse),{status:200})
+        return new Response(JSON.stringify({iaResponse:{...iaResponse,...salvandoIa},mensagemUsuario}),{status:200})
     }
     catch(err){
-        console.log(err)
         return new Response(JSON.stringify(err),{status:404})
     }
 }
 
 
 
-async function salvarArquivo(fileName:string,data64:string,idMensagem:number){
+async function salvarArquivo(fileName:string,content:string,idMensagem:number){
     const novoArquivo  = await prisma.arquivo.create({
         data:{
             idMensagem:idMensagem,
-            url: data64,
+            data: content,
             nome: fileName
         }
     })

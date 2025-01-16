@@ -7,6 +7,7 @@
 
 	import Mensagens from "../../../components/sections/Mensagens.svelte";
 	import ControlField from "../../../components/sections/ControlField.svelte";
+	import axios from "axios";
     
 
     let conversaAtual = $state<number>()
@@ -19,6 +20,26 @@
             mountChat()
         }
     })
+
+
+    $effect(()=>{
+        if(chatAtual)
+            updateChatName(chatAtual.nome)
+    })
+
+
+    let updater:NodeJS.Timeout;
+
+    function updateChatName(name:string){
+        if(updater){
+            clearTimeout(updater)
+        }
+        updater = setTimeout(async()=>{
+            if(!chatAtual) return
+            const r = await axios.put("/api/chat",{nome:name,id:chatAtual.id})
+        },700)
+
+    }
 
     async function mountChat(){
         await data.loadChat()
@@ -34,17 +55,22 @@
 </script>
 
 {#if conversaAtual && chatAtual}
-    <div class="flex flex-col h-screen max-h-screen w-screen">
+    <div class="flex flex-col justify-start items-start h-screen max-h-screen w-screen">
 
-        <div class="flex z-10 items-center justify-start absolute pointer-events-auto p-2  px-32 left-0 w-full" >
+        <div class="flex z-10 items-center justify-start absolute pointer-events-auto  p-2 pl-[100px] pr-0  xl:pr-12 xl:pl-[180px] left-0 w-full" >
             <div class="flex  ">
                 <Models bind:modelo/>
            </div>
 
-            <h2 class="text-[28px] font-semibold p-4 ">Chat: {chatAtual.nome}</h2>
+            <div class="text-[28px] font-semibold p-4 w-full whitespace-nowrap">
+                Chat: 
+                <input type="text" bind:value={chatAtual.nome} class="bg-transparent focus:bg-white outline-neutral-900 
+                focus:indent-4 duration-300 ease-in-out p-1 px-0"/>
+            </div>
             
         </div>
-        <div class="flex flex-col  pb-4 justify-between relative h-full pt-20 pl-[260px] pr-32 w-full">
+        <div class="flex flex-col  justify-between relative h-full w-full
+        pt-20 xl:pl-[260px] pl-[100px] pr-7 xl:pr-32 ">
             <Mensagens chatAtual={chatAtual}/>
             <ControlField conversaAtual={conversaAtual} chatAtual={chatAtual} modelo={modelo}/>
         </div>

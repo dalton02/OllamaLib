@@ -17,12 +17,12 @@
 </script>
 
 
-<div class="flex flex-col items-start rounded-2xl relative">
+<div class="flex flex-col items-start justify-start rounded-2xl relative">
 
-    <LetterSpawn label="Hello There" color="text-[#181818] leading-6"/>
-    <LetterSpawn label="Want to use the full power of IA?" color="text-[#0F0F0F]" size="text-[60px]" initDelay={900}/>
+    <LetterSpawn label="Hello There" color="text-[#181818] leading-6" initDelay={200}/>
+    <LetterSpawn label="Want to use the full power of AI?" color="text-[#0F0F0F]" size="text-[60px]" initDelay={1000}/>
     <div class="flex w-full items-start justify-start">
-       <Typer delay={2500} label="Start chating with your ollama :)" infinite={false} size="text-[26px]" color="text-[#3F3F3F]"/>
+       <Typer delay={2600} label="Start chating with your ollama :)" infinite={false} size="text-[26px]" color="text-[#3F3F3F]"/>
     </div>
 
     <svg xmlns="http://www.w3.org/2000/svg" width="70" class="absolute top-[30px] left-[-110px] hidden fill-green-700 wave-hand" viewBox="0 0 256 256">
@@ -31,7 +31,7 @@
     </svg>
 
     {#if mounted}
-        <button in:scale={{delay:2100,duration:1500,easing:sineInOut}}
+        <button in:scale={{delay:2300,duration:1500,easing:sineInOut}}
         onclick={()=>signal.send("openNovaConversa")} class="group mb-4  rounded-lg bg-white border border-gray-200 shadow-xl relative group 
             flex gap-2  items-center font-semibold  text-[22px] duration-700 mt-6 px-7 p-2 hover:bg-neutral-950 {easing}">
             <b class="font-medium group-hover:translate-x-6 duration-500 group-hover:text-white {easing}">Create Chat</b>

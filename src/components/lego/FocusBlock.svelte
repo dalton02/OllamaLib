@@ -33,10 +33,11 @@
     function lostFocus(event:any){        
         if(!container) return
         const elemento = event.relatedTarget;
+        if(containersWithinFocus.some((obj)=> obj===elemento)){
+            return
+        }
         if(!container.contains(elemento)){
             viewObject=false;
-        }
-        else if(containersWithinFocus.some((obj)=> obj===elemento)){
         }
         else{
             container.focus();

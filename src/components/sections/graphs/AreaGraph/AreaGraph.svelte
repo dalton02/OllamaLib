@@ -11,19 +11,20 @@
     let {data}:{data:{myX:string,myY:number}[]} = $props()
   </script>
   
-  <div class="flex-grow overflow-hidden h-[200px]">
+  <div class=" flex-grow overflow-x-auto h-[200px]">
     <LayerCake
       padding={{ top: 8, right: 10, bottom: 20, left: 25 }}
       x={xKey}
       y={yKey}
-      height={200}
       yDomain={[0, null]}
       data={data}
+    
+    
     >
-      <Svg>
-        <AxisX  />
-        <AxisY ticks={4} />
-        <Line stroke="#D33632"/>
+      <Svg >
+        <AxisX  ticks={data.length} />
+        <AxisY />
+        <Line  stroke="#D33632"/>
         <Area  />
       </Svg>
     </LayerCake>

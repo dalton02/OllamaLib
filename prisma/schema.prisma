@@ -47,7 +47,7 @@ model Mensagem {
 model Arquivo {
   id  Int @id @default(autoincrement())
   nome  String
-  url String
+  data String
   idMensagem Int 
   mensagem Mensagem @relation(fields:[idMensagem],references: [id])
 

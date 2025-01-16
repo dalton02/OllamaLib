@@ -5,7 +5,9 @@
 @tailwind components;
 @tailwind utilities;
 
-*{
+
+body{
+  overflow: hidden;
   font-family: "Barlow Condensed", serif;
   font-weight: 500;
   font-style: normal;
@@ -13,9 +15,8 @@
 
 h1 {
   font-size: 24px;
-  margin-bottom: 10px;
-  text-align: center;
-  color: #333;
+  margin: 6px 0px;
+  text-align: left;
 }
 
 /* Formulário (form) */
@@ -26,73 +27,73 @@ form {
 }
 
 /* Botão de envio */
-button[type="submit"] {
-  padding: 10px 15px;
-  font-size: 16px;
-  color: #fff;
-  background-color: #007bff;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-}
-
-button[type="submit"]:hover {
-  background-color: #0056b3;
-}
-
-/* Estilo individual de cada mensagem (li) */
 li {
   padding: 2px;
   border-radius: 5px;
   list-style: square;
+  margin-top:8px;
+  margin-bottom:8px;
   margin-left: 30px;
 }
 
-/* Diferenciar mensagens alternadas */
-li:nth-child(odd) {
-}
-
-/* Estilo para blockquote */
 blockquote {
   margin: 20px 0;
   padding: 10px 15px;
-  border-left: 4px solid #007bff;
   font-style: italic;
-  color: #555;
+}
+.markdown{
+  font-family: "Barlow Condensed", serif;
+  font-weight: 500;
+  font-style: normal;
+  font-size: 16px;
+}
+code:not(pre > code) {
+  padding: 4px;
+  border-radius: 4px;
+  background: #EEEEEE;
+  color: #0D1117;
+  font-size: 14px;
+  margin: 0px 4px;
+
+  font-weight: 600;
+  white-space: pre-wrap;
 }
 
-pre{
-  overflow-x: auto;
-  padding:10px;
-  font-size:14px;
-  border-radius: 10px;
-  background: #0c0c0c;
-
+code{
+  font-family: "Open Sans", serif;
+  font-weight:400;
 }
-pre::-webkit-scrollbar {
+code::-webkit-scrollbar {
   width: 5px;
   height: 5px;
 }
 
-pre::-webkit-scrollbar-track {
+code::-webkit-scrollbar-track {
   border-radius: 5px;
   background-color: transparent;
 }
 
-pre::-webkit-scrollbar-thumb {
+code::-webkit-scrollbar-track:hover {
+  background-color: transparent; 
+}
+
+code::-webkit-scrollbar-track:active {
+  background-color: transparent;
+}
+code::-webkit-scrollbar-thumb {
   border-radius: 5px;
   height: 30%;
   background-color: #486581; 
 }
 
-pre::-webkit-scrollbar-thumb:hover {
+.scroll-padrao::-webkit-scrollbar-thumb:hover {
   background-color: #627d98; 
 }
 
-pre::-webkit-scrollbar-thumb:active {
+.scroll-padrao::-webkit-scrollbar-thumb:active {
   background-color: #334e68; 
 }
+
 @layer utilities {
 
 
@@ -123,7 +124,11 @@ pre::-webkit-scrollbar-thumb:active {
       transform: rotate(-30deg) translateY(0);
     }
   }
-  
+  .font-code{
+      font-family: "Space Mono", serif;
+      font-weight: 400;
+      font-style: normal;
+  }
     .scroll-padrao::-webkit-scrollbar {
       width: 5px;
       height: 5px;

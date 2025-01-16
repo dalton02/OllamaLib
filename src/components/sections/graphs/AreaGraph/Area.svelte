@@ -46,5 +46,6 @@
       <stop offset="90%" stop-color="#D33632" stop-opacity="0" />
     </linearGradient>
   </defs>
-  <path class="path-area" in:slidefade|global d={area} fill="url(#grad)"></path>
-  
+  {#key area}
+  <path class="path-area" transition:slidefade|global d={area} fill="url(#grad)"></path>
+  {/key}

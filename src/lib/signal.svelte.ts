@@ -1,6 +1,10 @@
+
+
+type sinais = "openFailed" | "openStatistics" | "openNovaConversa" | "openChats" |""
+
 export class Signal{
 
-    state = $state<{data:any,signal:string}>({
+    state = $state<{data:any,signal:sinais}>({
         data:{},
         signal:""
     })
@@ -11,7 +15,7 @@ export class Signal{
             signal:""
         }
     }
-    send(signal:string,data?:any){
+    send(signal:sinais,data?:any){
         this.state={
             signal,
             data:data

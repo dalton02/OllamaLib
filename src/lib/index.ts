@@ -7,6 +7,7 @@ export interface Chat {
     nome: string;
     mensagens: Mensagem[];
     thinking:boolean;
+    [key:string]:any;
   }
   
   export interface Mensagem {
@@ -25,7 +26,7 @@ export interface Chat {
     total_duration?: string;    
     arquivos?:{
       nome:string
-      url:string
+      content:string
     }[];
 
   }
@@ -34,4 +35,6 @@ export interface Chat {
     content:string,
     name:string,
     mime:string,
+    loading?:boolean,
+    id:number,
 }

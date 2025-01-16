@@ -1,5 +1,5 @@
 import { goto } from "$app/navigation";
-import type { Chat, FileData } from "$lib"
+import type { Chat, FileData, Mensagem } from "$lib"
 import axios, { AxiosError } from "axios";
 import signal from "./signal.svelte";
 
@@ -17,7 +17,6 @@ class Data {
                     this.chats.push(chat)
                 }
             }
-            console.log(this.chats)
         }
         catch(err){
             const error = err as any
@@ -36,15 +35,29 @@ class Data {
     }
 
     organizarMensagensDocumentos(input:string,files:FileData[]):string{
-        //Chore: botar de um jeito maneiro os conteudos de cada arquivo em um markdown be, massa
-        return input
+        if(files.length===0) return input
+
+        let content = "\n\nHere are some documents converted into text for you:\n";
+        for(let i in files){
+            content+="\n - - - - - -  Start File  - - - - - - "
+            content+= files[i].content
+            content+="\n- - - - - -   End File - - - - - - "
+        }
+        return content
+
     }
 
-    async enviar(input:string,idChat:number,modelo:string,filesD:FileData[]){    
+    contextoChat(idChat:number){
+        const chat = JSON.parse(JSON.stringify(this.chats.find((obj)=>obj.id===idChat)));   
+        if(!chat) return
+        return chat
+    }
+
+    async enviar(input:string,idChat:number,modelo:string,filesD:FileData[],controller:AbortController){    
         try{
-            this.chats = this.chats.map((obj,i)=>{
-                if(obj.id===idChat){
-                    obj.mensagens.push({
+            const chat = this.chats.find((obj)=>obj.id===idChat)
+            if(!chat) return
+            chat.mensagens.push({
                         conteudo:input,
                         atualizadoEm: new Date(),
                         criadoEm: new Date(),
@@ -52,53 +65,86 @@ class Data {
                         idChat:idChat,
                         modelo:modelo,
                         bot:false,
-                        arquivos: filesD ? filesD.map((obj)=>{return{nome:obj.name,url:""}}) : []
-                    })
-                    obj.thinking=true;
-                }
-                return obj
+                        arquivos: filesD ? filesD.map((obj)=>{return{nome:obj.name,content:this.organizarMensagensDocumentos(input,filesD)}}) : []
             })
+            chat.thinking=true
+
 
             const body = {
-                mensagem: this.organizarMensagensDocumentos(input,filesD),
+                mensagem: input,
                 idChat: idChat,
                 modelo: modelo,
-                chatContext: this.chats.find((obj)=>obj.id===idChat),
-                files:[]
+                chatContext: this.contextoChat(idChat),
+                files:filesD
             }
-            const response = await axios.post("/api/mensagem", body)
-
-            this.chats = this.chats.map((obj:Chat,i)=>{
-                if(obj.id===idChat){
-                    obj.mensagens.push({
-                        conteudo:response.data.message.content.replace(/<|start_header_id|>[\s\S]*?<|end_header_id|>\n?/g, ''),
-                        atualizadoEm: new Date(),
-                        criadoEm: new Date(),
-                        id:-1,
-                        modelo:modelo,
-                        idChat:idChat,
-                        bot:true,
-                        eval_count:response.data.eval_count,
-                        eval_duration: response.data.eval_duration,
-                        load_duration: response.data.load_duration,
-                        prompt_eval_count: response.data.prompt_eval_count,
-                        prompt_eval_duration: response.data.prompt_eval_duration,
-                        total_duration: response.data.total_duration
-                    })
+            const response = await axios.post("/api/mensagem",body,
+                {
+                    signal:controller.signal
+                }
+            )
+            chat.mensagens = chat.mensagens.map((obj,i)=>{
+                if(obj.id===-1){
+                    obj.id=response.data.mensagemUsuario.id
                 }
                 return obj
             })
-        }catch(err){
-            signal.send("openFailed",{mensagem:modelo,tipo:"model"})
+            chat.mensagens.push({
+                    conteudo:response.data.iaResponse.message.content.replace(/<|start_header_id|>[\s\S]*?<|end_header_id|>\n?/g, ''),
+                    atualizadoEm: new Date(),
+                    criadoEm: new Date(),
+                    id:response.data.iaResponse.id,
+                    modelo:modelo,
+                    idChat:idChat,
+                    bot:true,
+                    eval_count:response.data.iaResponse.eval_count,
+                    eval_duration: response.data.iaResponse.eval_duration,
+                    load_duration: response.data.iaResponse.load_duration,
+                    prompt_eval_count: response.data.iaResponse.prompt_eval_count,
+                    prompt_eval_duration: response.data.iaResponse.prompt_eval_duration,
+                    total_duration: response.data.iaResponse.total_duration
+            })
+
+            
         }
-        this.chats = this.chats.map((obj,i)=>{
-            if(obj.id===idChat){
-                obj.thinking=false
+        catch(err:any){
+            // this.removerUltima(idChat)
+            if(!err.response){
+                if(err.message==="canceled"){
+                    return
+                }
             }
-            return obj
-        })
+            const error = err.response.data.error
+            if(error.includes("model")){
+                signal.send("openFailed",{mensagem:mensagemModel(modelo)})
+                return
+            }
+            signal.send("openFailed",{mensagem:error})
+        }
+
+        finally{
+            this.chats = this.chats.map((obj,i)=>{
+                if(obj.id===idChat){
+                    obj.thinking=false
+                }
+                return obj
+            })
+        }
+    }
+
+    removerUltima(idChat:number){
+        this.chats[idChat].mensagens.pop()
     }
 }
 
+
+
+
 const data = new Data()
 export default data
+
+
+
+const mensagemModel = (model:string) => {
+    return `The model you trying to chat is not avaliable in your machine, please pull the model <b>${model}</b> following this instructions:
+<a href="https://github.com/ollama/ollama" class="text-blue-600 underline hover:text-purple-600" target="_blank">Ollama</a>`
+}

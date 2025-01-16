@@ -44,6 +44,8 @@
 		"pdfjs-dist": "^4.10.38",
 		"pizzip": "^3.1.7",
 		"prisma": "^6.1.0",
+		"short-unique-id": "^5.2.0",
+		"svelte-highlight": "^7.8.2",
 		"tailwindcss-motion": "^1.0.1",
 		"util": "^0.10.3",
 		"word-extractor": "^1.0.4"

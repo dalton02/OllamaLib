@@ -1,6 +1,7 @@
 import { request } from "http";
 import {prisma} from "$lib/server/prisma.js"
 import { randomUUID } from "crypto";
+import type { PrismaClient } from "@prisma/client/extension";
 
 export const GET = async({request}) => {
     try{
@@ -40,6 +41,18 @@ export const GET = async({request}) => {
     }
 
 }
+
+export const PUT = async({request}) => {
+    const body = await request.json();
+    const chat = await prisma.chat.update({
+        data:body,
+        where:{
+            id: body.id
+        }
+    })
+    return new Response("Sucesso",{status:200})
+}
+
 export const POST = async({request}) => {
 
     const body = await request.json()
@@ -52,6 +65,34 @@ export const POST = async({request}) => {
             id:true
         }
     })
-    return new Response(JSON.stringify({id:chat.id}),{status:200})
+    return new Response(JSON.stringify({id:chat.id}),{status:201})
+
+}
+export const DELETE = async({request}) => {
+
+    const body = await request.json()
+
+    await prisma.$transaction(async(p:PrismaClient) => {
+        const deleteArquivos =  await p.arquivo.deleteMany({
+            where: {
+                mensagem:{
+                    idChat:body.id
+                }
+            },
+        });
+        const deleteMensagens =  await p.mensagem.deleteMany({
+            where: {
+            idChat: body.id,
+            },
+        });
+        const deleteChat = await p.chat.delete({
+            where:{
+                id:body.id
+            }
+        })
+        return deleteChat
+    })
+
+    return new Response("Sucesso",{status:200})
 
 }
