@@ -16,7 +16,6 @@ OllamaLib is an open-source project that allows you to run your own **ChatGPT co
 ### Prerequisites  
 
 - Install [Ollama](https://ollama.com) to access LLM models  
-- Ensure you have **Node.js** and **Python** installed (depending on your setup)  
 
 ### Installation  
 
