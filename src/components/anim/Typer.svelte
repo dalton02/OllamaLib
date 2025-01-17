@@ -43,15 +43,13 @@
         anim();
     }
 
-    setTimeout(()=>{
-        anim()
-    },delay)
-
-
-    $effect(() => {
+    onMount(() => {
         if(container){
-            realWidth = container?.getBoundingClientRect().width;
+            realWidth = container.getBoundingClientRect().width;
             fade=true;
+            setTimeout(()=>{
+                anim()
+            },delay)
         }
     });
 
