@@ -8,7 +8,7 @@ export function codeMarkdown(node:Element){
 
     
     onMount(()=>{
-        const childs = Array.from(node.children); // Converte para array
+        const childs = Array.from(node.children);
         childs.forEach((child, i) => {
             if (child.tagName === "PRE") {
                 parseCoder(child, i);

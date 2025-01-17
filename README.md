@@ -1,38 +1,42 @@
-# sv
+# 🚀 OllamaLib - Your Private, Offline ChatGPT for Developers  
 
-Everything you need to build a Svelte project, powered by [`sv`](https://github.com/sveltejs/cli).
+OllamaLib is an open-source project that allows you to run your own **ChatGPT completely offline and private**, leveraging the power of **LLM Ollama** models. With OllamaLib, you have full control over your AI assistant without relying on cloud services.  
 
-## Creating a project
+## ✨ Features  
 
-If you're seeing this, you've probably already done this step. Congrats!
+- 🔥 **Offline & Private** – No cloud dependencies, full local control  
+- 🧠 **Use Any Ollama Model** – Load and interact with all available LLM Ollama models  
+- 📂 **Chat Organization** – Manage conversations easily  
+- 📝 **Document Uploads** – Process and analyze documents efficiently  
+- 🎨 **Intuitive Markdown Output** – Get structured and readable AI-generated content  
+- 📊 **Performance Metrics** – Compare the speed of different models within the chat  
 
-```bash
-# create a new project in the current directory
-npx sv create
+## 🚀 Getting Started  
 
-# create a new project in my-app
-npx sv create my-app
+### Prerequisites  
+
+- Install [Ollama](https://ollama.com) to access LLM models  
+- Ensure you have **Node.js** and **Python** installed (depending on your setup)  
+
+### Installation  
+
+Clone the repository:  
+
 ```
+git clone https://github.com/yourusername/OllamaLib.git
+cd OllamaLib
+npm install
 
-## Developing
+Run the application:
 
-Once you've created a project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
-
-```bash
-npm run dev
-
-# or start the server and open the app in a new browser tab
-npm run dev -- --open
-```
-
-## Building
-
-To create a production version of your app:
-
-```bash
 npm run build
+npm run preview
 ```
 
-You can preview the production build with `npm run preview`.
+🔗 Credits
+This project is built upon the amazing Ollama LLM models. Huge thanks to the Ollama team for providing powerful AI models that can run locally and privately.
 
-> To deploy your app, you may need to install an [adapter](https://svelte.dev/docs/kit/adapters) for your target environment.
+📜 License
+This project is licensed under the MIT License – feel free to use, modify, and contribute!
+
+💡 Contributions are welcome! Feel free to submit a pull request or open an issue if you have suggestions.

@@ -63,24 +63,24 @@ code{
   font-family: "Open Sans", serif;
   font-weight:400;
 }
-code::-webkit-scrollbar {
+*::-webkit-scrollbar {
   width: 5px;
   height: 5px;
 }
 
-code::-webkit-scrollbar-track {
+*::-webkit-scrollbar-track {
   border-radius: 5px;
   background-color: transparent;
 }
 
-code::-webkit-scrollbar-track:hover {
+*::-webkit-scrollbar-track:hover {
   background-color: transparent; 
 }
 
-code::-webkit-scrollbar-track:active {
+*::-webkit-scrollbar-track:active {
   background-color: transparent;
 }
-code::-webkit-scrollbar-thumb {
+*::-webkit-scrollbar-thumb {
   border-radius: 5px;
   height: 30%;
   background-color: #486581; 
@@ -92,6 +92,54 @@ code::-webkit-scrollbar-thumb {
 
 .scroll-padrao::-webkit-scrollbar-thumb:active {
   background-color: #334e68; 
+}
+table {
+  width: 100%;
+  border-collapse: collapse;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  background-color: #fff;
+  margin:6px 0px;
+  overflow-x: auto;
+}
+
+thead {
+  background-color: #8685EF;
+  color: white;
+  text-align: left;
+  font-weight: bold;
+}
+
+thead th {
+  padding: 12px;
+}
+
+tbody tr {
+  border-bottom: 1px solid #FAF8FF;
+}
+
+tbody tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+tbody td {
+  padding: 12px;
+  color: #333;
+  flex-shrink: 0;
+}
+
+tbody tr:hover {
+  background-color: #f1f1f1;
+  transition: background-color 0.3s ease;
+}
+
+caption {
+  caption-side: top;
+  padding: 10px;
+  font-size: 1.2em;
+  font-weight: bold;
+  color: #333;
 }
 
 @layer utilities {

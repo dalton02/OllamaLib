@@ -8,6 +8,7 @@
 	import Thinking from "../svg/Thinking.svelte";
 	import data from "$lib/data.svelte";
 	import { codeMarkdown } from "$lib/actions/code";
+	import { tableDiv } from "$lib/actions/table";
 
 
     let {chatAtual}:{chatAtual:Chat} = $props()
@@ -41,7 +42,7 @@
                         <Logo width="18" fill="black"/>
                     </TitleBlock>
                     <div class="mr-auto overflow-hidden markdown whitespace-normal shadow-sm flex max-w-[80%] flex-col gap-2 rounded-r-md rounded-tl-md bg-neutral-50 p-4 text-neutral-600 md:max-w-[60%] dark:bg-neutral-900 dark:text-neutral-300"
-                    use:codeMarkdown>
+                    use:codeMarkdown use:tableDiv>
                          {@html marked.parse(mensagem.conteudo)}
                     </div>
                 </div>

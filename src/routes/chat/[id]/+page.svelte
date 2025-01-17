@@ -70,7 +70,7 @@
             
         </div>
         <div class="flex flex-col  justify-between relative h-full w-full
-        pt-20 xl:pl-[260px] pl-[100px] pr-7 xl:pr-32 ">
+        pt-20 xl:pl-[188px] pl-[100px] pr-7 xl:pr-20 ">
             <Mensagens chatAtual={chatAtual}/>
             <ControlField conversaAtual={conversaAtual} chatAtual={chatAtual} modelo={modelo}/>
         </div>
