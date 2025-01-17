@@ -26,6 +26,9 @@ git clone https://github.com/yourusername/OllamaLib.git
 cd OllamaLib
 npm install
 
+Generate the db:
+npx prisma db push
+
 Run the application:
 
 npm run build
