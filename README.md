@@ -22,7 +22,7 @@ OllamaLib is an open-source project that allows you to run your own **ChatGPT co
 Clone the repository:  
 
 ```
-git clone https://github.com/yourusername/OllamaLib.git
+git clone https://github.com/dalton02/OllamaLib
 cd OllamaLib
 npm install
 
